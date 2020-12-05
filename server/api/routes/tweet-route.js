@@ -1,13 +1,22 @@
 /**
- * Tasks endpoint route definitions.
+ * Tweet endpoint route definitions.
  */
 
 "use strict";
 module.exports = function (app) {
   const tweetController = require("../controllers/tweet-controller");
 
-  // Task Routes for creating task
+  // Tweet Route for creating tweets
   app.route("/v1/tweets").post(tweetController.createTweets);
+
+  // Update a Tweet for comments
+  app.route("/v1/:tweetId/comments").put(tweetController.updateTweetForComments);
+
+  // Update a Tweet for likes
+  app.route("/v1/:tweetId/likes").put(tweetController.updateTweetForLikes);
+
+  // Get all tweets
+  app.route("/v1/tweets").get(tweetController.getTweets);
 
   // // Task Routes for Marking a Task as complete
   // app.route("/v1/tasks/:taskId").put(taskController.updateTask);

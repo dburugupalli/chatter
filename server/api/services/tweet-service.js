@@ -14,6 +14,61 @@ exports.createTweets = function (tweets) {
   return promise;
 };
 
+exports.getTweets = function () {
+  const promise = Tweet.find({});
+  return promise;
+}
+
+/**
+ * Updates the tweets based on user comments
+ * @param {*} tweetId 
+ * @param {*} commentBody 
+ */
+exports.updateTweetForComments = function (tweetId, commentBody) {
+  // Find the tweet and then add the commentBody to the array of comments
+  const updatedTweet = Tweet.updateOne(
+    { tweetId: tweetId },
+    { $push: { comments: commentBody } }
+  );
+  
+  return updatedTweet;
+};
+
+/**
+ * Updates the tweets when a user likes or dislikes a tweet
+ * @param {*} tweetId 
+ * @param {*} likesBody 
+ */
+exports.updateTweetForLikes = function (tweetId, likesBody) {
+  // Find the tweet and then like/dislike conditionally
+  let updateTweet = null;
+  if (likesBody.liked != 0) {
+    updateTweet = Tweet.updateOne(
+      {
+        tweetId: tweetId,
+      },
+      {
+        $push: {
+          likes: likesBody.userId,
+        }
+      }
+    );
+    
+  } else {
+    updateTweet = Tweet.updateOne(
+      {
+        tweetId: tweetId,
+      },
+      {
+        $pull: {
+          likes: likesBody.userId,
+        },
+      }
+    );
+  }
+  return updateTweet;
+};
+
 /**
  * Updates and returns the Task object.
  * @param {String} taskId
@@ -33,8 +88,6 @@ exports.createTweets = function (tweets) {
 //   const promise = Task.deleteMany().exec();
 //   return promise;
 // };
-
-
 
 /**
  * Returns the list of tasks

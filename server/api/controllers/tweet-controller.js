@@ -1,8 +1,8 @@
 "use strict";
 //import task service.
 const tweetService = require("../services/tweet-service"),
-      utilConstants = require("../utils/Constants"),
-      log4js = require("log4js");
+  utilConstants = require("../utils/Constants"),
+  log4js = require("log4js");
 
 log4js.configure({
   appenders: {
@@ -23,17 +23,63 @@ const logger = log4js.getLogger("chatterApp");
  * @param {response} {HTTP response object}
  */
 exports.createTweets = function (request, response) {
-    try {
-        const resolve = (newTweets) => {
-          response.status(201).json(newTweets);
-        };
-        tweetService
-          .createTweets(request.body)
-          .then(resolve)
-          .catch(renderErrorResponse(response));
-      } catch (err) {
-        renderErrorResponse(err);
-      }
+  try {
+    const resolve = (newTweets) => {
+      response.status(201).json(newTweets);
+    };
+    tweetService
+      .createTweets(request.body)
+      .then(resolve)
+      .catch(renderErrorResponse(response));
+  } catch (err) {
+    renderErrorResponse(err);
+  }
+};
+
+exports.getTweets = function (_request, response) {
+  try {
+    const resolve = (tweets) => {
+      response.status(200);
+      response.json(tweets);
+    };
+    tweetService.getTweets().then(resolve).catch(renderErrorResponse(response));
+  } catch (err) {
+    renderErrorResponse(err);
+  }
+};
+
+exports.updateTweetForComments = function (request, response) {
+  try {
+    const tweetId = request.params.tweetId;
+    const resolve = () => {
+      response.status(200).json({
+        message: "Tweet Updated successfully",
+      });
+    };
+    tweetService
+      .updateTweetForComments(tweetId, request.body)
+      .then(resolve)
+      .catch(renderErrorResponse(response));
+  } catch (err) {
+    renderErrorResponse(err);
+  }
+};
+
+exports.updateTweetForLikes = function (request, response) {
+  try {
+    const tweetId = request.params.tweetId;
+    const resolve = () => {
+      response.status(200).json({
+        message: "Tweet Updated successfully",
+      });
+    };
+    tweetService
+      .updateTweetForLikes(tweetId, request.body)
+      .then(resolve)
+      .catch(renderErrorResponse(response));
+  } catch (err) {
+    renderErrorResponse(err);
+  }
 };
 
 /**
@@ -114,17 +160,23 @@ exports.createTweets = function (request, response) {
  */
 let renderErrorResponse = (response) => {
   const errorCallback = (error) => {
-    if (error && error.message === utilConstants.TASK_ASSIGNEE_VALIDATION_ERROR) {
-        logger.warn(`Client error: ${error.message}`);
-        response.status(400).json({
-            message: utilConstants.ASSIGNEE_ERROR,
-        });
-    } else if (error && error.message === utilConstants.TASK_DESC_VALIDATION_ERROR) {
-        response.status(400);
-        logger.warn(`Client error: ${error.message}`);
-        response.json({
-            message: utilConstants.TASK_DESC_ERROR,
-        });
+    if (
+      error &&
+      error.message === utilConstants.TASK_ASSIGNEE_VALIDATION_ERROR
+    ) {
+      logger.warn(`Client error: ${error.message}`);
+      response.status(400).json({
+        message: utilConstants.ASSIGNEE_ERROR,
+      });
+    } else if (
+      error &&
+      error.message === utilConstants.TASK_DESC_VALIDATION_ERROR
+    ) {
+      response.status(400);
+      logger.warn(`Client error: ${error.message}`);
+      response.json({
+        message: utilConstants.TASK_DESC_ERROR,
+      });
     } else {
       response.status(500);
       logger.fatal(`Server error: ${error.message}`);
