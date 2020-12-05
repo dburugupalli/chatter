@@ -44,11 +44,19 @@ let tweetSchema = new Schema(
     },
 
     /**
+     * Image Link for the tweet
+     */
+    imageLink: {
+      type: String
+    },
+
+    /**
      * Likes for a Tweet
      */
     likes: [String],
 
     comments: [{ 
+      commentId:String,
       commentedBy:String,
       avatarLink:String,
       comment:String 

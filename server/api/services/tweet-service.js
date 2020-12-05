@@ -15,7 +15,7 @@ exports.createTweets = function (tweets) {
 };
 
 exports.getTweets = function () {
-  const promise = Tweet.find({});
+  const promise = Tweet.find({},{_id:0, comments:{_id:0}});
   return promise;
 }
 
