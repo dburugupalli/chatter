@@ -1,0 +1,21 @@
+{
+  "name": "chatter-redis",
+  "version": "1.0.0",
+  "description": "Redis Server application to cache chatter app requests",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Team Chatter",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
