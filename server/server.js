@@ -5,6 +5,8 @@ const express = require("express"),
   mongoose = require("mongoose"), //created model loading here
   bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require('./api/utils/jwt');
+const errorHandler = require("./api/utils/error_handler");
 
 // Mongo Atlas
 const uri = utilConstants.MONGODB_URL;
@@ -12,6 +14,7 @@ mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
+  useCreateIndex: true,
   promiseLibrary: global.Promise,
 })
 .then(() => {
@@ -21,7 +24,8 @@ mongoose.connect(uri, {
 
 // enable cors
 app.use(cors());
-
+app.use(jwt());
+app.use(errorHandler);
 //Adding body parser for handling request and response objects.
 app.use(
   bodyParser.urlencoded({

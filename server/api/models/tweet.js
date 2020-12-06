@@ -1,44 +1,68 @@
-"use strict";
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 /**
- * Mongoose schema for userStory object.
+ * Mongoose schema for Tweet object.
  */
 let tweetSchema = new Schema(
   {
 
     /**
-     * Custom Id
+     * Custom Tweet Id
      */
-    uid: {
+    tweetId: {
       type: String,
-      required: "Task UID is required"
+      required: "Tweet ID is required"
     },
-    // /**
-    //  * Assignee for the tasks
-    //  */
-    // assignee: {
-    //   type: String,
-    //   required: "Task Assignee is required",
-    // },
-    // /**
-    //  * Task description.
-    //  */
-    description: {
-      type: String,
-      required: "Task Description is required",
-    },
+   
     /**
-     * Task status.
+     * Tweet text.
      */
-    // completed: {
-    //   type: Boolean,
-    //   default: false,
-    // },
+    tweet: {
+      type: String,
+      required: "Tweet Description is required",
+    },
+    
+    /**
+     * Tweet Created by
+     */
+    createdBy: {
+      userName: {
+        type: String
+      },
+      avatarLink: {
+        type: String
+      }
+    },
+
+    /**
+     * Tweet Created TimeStamp from Redis
+     */
+    createdAt: {
+      type: String
+    },
+
+    /**
+     * Image Link for the tweet
+     */
+    imageLink: {
+      type: String
+    },
+
+    /**
+     * Likes for a Tweet
+     */
+    likes: [String],
+
+    comments: [{ 
+      commentId:String,
+      commentedBy:String,
+      avatarLink:String,
+      comment:String 
+    }]
   },
   {
-    timestamps: true,
+    timestamps: false,
     versionKey: false,
   }
 );

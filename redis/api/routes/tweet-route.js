@@ -9,13 +9,13 @@ module.exports = function (app) {
   // Tweet Routes for creating tweets
   app.route("/v1/tweets").post(tweetController.createTweet);
 
-  // // Task Routes for Marking a Task as complete
-  // app.route("/v1/tasks/:taskId").put(taskController.updateTask);
-  
-  // // Task routes for getting all available tasks
-  // app.route("/v1/tasks")
-  //   .get(taskController.getTasks);
+  // Tweet Routes for updating the tweets for comments
+  app.route("/v1/:tweetId/comments").put(tweetController.updateTweetForComments);
 
-  // //  // Task Routes for clearing all tasks
-  //  app.route("/v1/tasks").delete(taskController.deleteTasks);
+  // Tweet Routes for updating the tweets for likes
+  app.route("/v1/:tweetId/likes").put(tweetController.updateTweetForLikes);
+  
+  // Tweet routes for getting all available tweets
+  app.route("/v1/tweets").get(tweetController.getTweets);
+
 };

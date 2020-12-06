@@ -1,21 +1,23 @@
 /**
- * Tasks endpoint route definitions.
+ * Tweet endpoint route definitions.
  */
 
 "use strict";
+
+const errorHandler = require("../utils/error_handler");
+
 module.exports = function (app) {
   const tweetController = require("../controllers/tweet-controller");
 
-  // Task Routes for creating task
-  app.route("/v1/tweets").post(tweetController.createTweets);
+  // Tweet Route for creating tweets
+  app.route("/v1/bulktweets").post(tweetController.createTweets, errorHandler);
 
-  // // Task Routes for Marking a Task as complete
-  // app.route("/v1/tasks/:taskId").put(taskController.updateTask);
-  
-  // // Task routes for getting all available tasks
-  // app.route("/v1/tasks")
-  //   .get(taskController.getTasks);
+  // Update a Tweet for comments
+  app.route("/v1/:tweetId/comments").put(tweetController.updateTweetForComments, errorHandler);
 
-  //  // Task Routes for clearing all tasks
-  //  app.route("/v1/tasks").delete(taskController.deleteTasks);
+  // Update a Tweet for likes
+  app.route("/v1/:tweetId/likes").put(tweetController.updateTweetForLikes, errorHandler);
+
+  // Get all tweets
+  app.route("/v1/tweets").get(tweetController.getTweets, errorHandler);
 };

@@ -3,9 +3,12 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   port = process.env.PORT || 3000,
   cors = require("cors");
+const jwt = require('./api/utils/jwt');
+const errorHandler = require("./api/utils/error_handler");
 // enable cors
 app.use(cors());
-
+app.use(jwt());
+app.use(errorHandler);
 //Adding body parser for handling request and response objects.
 app.use(
   bodyParser.urlencoded({
