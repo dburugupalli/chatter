@@ -31,8 +31,8 @@ exports.authenticate = async function authenticate(req, res, _next) {
     const user = await promise.json();
     res.status(200).json(user);
   } else {
-    res.status(400).json({
-      message: "Some issue occurred while registering the user",
+    res.status(promise.status).json({
+      message: "Invalid username or password",
     });
   }
 };
