@@ -6,16 +6,9 @@
 module.exports = function (app) {
   const userController = require("../controllers/user-controller");
 
-  // Routes to create a user
-  app.route("/v1/users").post(userController.createUser);
+  // Task Routes for creating task
+  app.route("/v1/register").post(userController.register);
+  app.route("/v1/authenticate").post(userController.authenticate);
+  app.route("/v1/getAll").get(userController.getAll);
 
-  // // Task Routes for Marking a Task as complete
-  // app.route("/v1/tasks/:taskId").put(taskController.updateTask);
-  
-  // // Task routes for getting all available tasks
-  // app.route("/v1/tasks")
-  //   .get(taskController.getTasks);
-
-  //  // Task Routes for clearing all tasks
-  //  app.route("/v1/tasks").delete(taskController.deleteTasks);
 };

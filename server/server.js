@@ -5,6 +5,7 @@ const express = require("express"),
   mongoose = require("mongoose"), //created model loading here
   bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require('./api/utils/jwt');
 
 // Mongo Atlas
 const uri = utilConstants.MONGODB_URL;
@@ -21,6 +22,7 @@ mongoose.connect(uri, {
 
 // enable cors
 app.use(cors());
+app.use(jwt());
 
 //Adding body parser for handling request and response objects.
 app.use(

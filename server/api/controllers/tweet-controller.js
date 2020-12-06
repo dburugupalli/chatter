@@ -23,6 +23,7 @@ const logger = log4js.getLogger("chatterApp");
  * @param {response} {HTTP response object}
  */
 exports.createTweets = function (request, response) {
+  console.log("iamhere")
     try {
         const resolve = (newTweets) => {
           response.status(201).json(newTweets);

@@ -1,138 +1,47 @@
-"use strict";
-//import task service.
-const userService = require("../services/user-service"),
-      utilConstants = require("../utils/Constants"),
-      log4js = require("log4js");
+const express = require('express');
+const userService = require('../services/user-service');
 
-log4js.configure({
-  appenders: {
-    everything: { type: "file", filename: "logs/chatterApp.log" },
-  },
-  categories: {
-    default: { appenders: ["everything"], level: "debug" },
-  },
-});
+// routes
 
-const logger = log4js.getLogger("chatterApp");
 
-/**
- * Creates a new User with the request JSON and
- * returns success response.
- *
- * @param {request} {HTTP request object}
- * @param {response} {HTTP response object}
- */
-exports.createUser = function (request, response) {
-    try {
-        const resolve = (newUser) => {
-          response.status(201).json(newUser);
-        };
-        userService
-          .createUser(request.body)
-          .then(resolve)
-          .catch(renderErrorResponse(response));
-      } catch (err) {
-        renderErrorResponse(err);
-      }
-};
+exports.authenticate = function authenticate(req, res, next) {
+    userService.authenticate(req.body)
+        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .catch(err => next(err));
+}
 
-/**
- * Clears all tasks
- * returns success response.
- * @param {request} {HTTP request object}
- * @param {response} {HTTP response object}
- */
+exports.register = function register(req, res, next) {
+    userService.create(req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
 
-// exports.deleteTasks = (_request, response) => {
-//   try {
-//         const resolve = () => {
-//             response.status(200).json({
-//               message: "All tasks cleared"
-//             })
-//     };
+exports.getAll = function getAll(req, res, next) {
+    userService.getAll()
+        .then(users => res.json(users))
+        .catch(err => next(err));
+}
 
-//     taskService
-//       .deleteTasks()
-//       .then(resolve)
-//       .catch(renderErrorResponse(response));
+function getCurrent(req, res, next) {
+    userService.getById(req.user.sub)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
 
-//   } catch(err){
-//     renderErrorResponse(err)
-//   }
-// }
+function getById(req, res, next) {
+    userService.getById(req.params.id)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
 
-// /**
-//  * Returns Updated Task response.
-//  *
-//  * @param request
-//  * @param response
-//  */
-// exports.updateTask = (request, response) => {
-//   try {
-//     const resolve = () => {
-//         response.status(200).json({
-//             message: "Successfully Updated the task"
-//         });
-//     };
-//     taskService
-//       .updateTask(request.params.taskId)
-//       .then(resolve)
-//       .catch(renderErrorResponse(response));
-//   } catch (err) {
-//     renderErrorResponse(err);
-//   }
-// };
+function update(req, res, next) {
+    userService.update(req.params.id, req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
 
-// /**
-//  *
-//  * Returns all tasks.
-//  * @param {request} {HTTP request object}
-//  * @param {response} {HTTP response object}
-//  */
-// exports.getTasks = (_request, response) => {
-//   try {
-//         const resolve = (tasks) => {
-//             response.status(200);
-//             response.json(tasks);
-//     };
-
-//     taskService
-//       .getTasks()
-//       .then(resolve)
-//       .catch(renderErrorResponse(response));
-
-//   } catch(err){
-//     renderErrorResponse(err)
-//   }
-// }
-
-/**
- * Throws error if error object is present.
- *
- * @param {Response} response The response object
- * @return {Function} The error handler function.
- */
-let renderErrorResponse = (response) => {
-  const errorCallback = (error) => {
-    if (error && error.message === utilConstants.TASK_ASSIGNEE_VALIDATION_ERROR) {
-        logger.warn(`Client error: ${error.message}`);
-        response.status(400).json({
-            message: utilConstants.ASSIGNEE_ERROR,
-        });
-    } else if (error && error.message === utilConstants.TASK_DESC_VALIDATION_ERROR) {
-        response.status(400);
-        logger.warn(`Client error: ${error.message}`);
-        response.json({
-            message: utilConstants.TASK_DESC_ERROR,
-        });
-    } else {
-      response.status(500);
-      logger.fatal(`Server error: ${error.message}`);
-      response.json({
-        message: utilConstants.SERVER_ERR,
-      });
-    }
-  };
-
-  return errorCallback;
-};
+function _delete(req, res, next) {
+    userService.delete(req.params.id)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
