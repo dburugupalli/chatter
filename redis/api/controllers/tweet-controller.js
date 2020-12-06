@@ -1,8 +1,8 @@
 "use strict";
 const redis = require("redis");
 const client = redis.createClient({
-    host: "localhost",
-    port: 6379
+  host: "localhost",
+  port: 6379,
 });
 
 const tweetKey = "tweets";
@@ -10,8 +10,8 @@ client.set("key", tweetKey, redis.print);
 client.get("key", redis.print);
 
 const fetch = require("node-fetch");
-const serverName = 'localhost';
-const cacheTimeOut = 2;
+const serverName = "localhost";
+const cacheTimeOut = 4;
 const baseUrl = `http://${serverName}:5000/v1`;
 
 // clears cache every cacheTimeOut minutes
@@ -26,7 +26,7 @@ function clearCache() {
       const tweets = reply.map(JSON.parse);
       if (tweets && tweets.length > 0) {
         // call the node server to dump the data
-        fetch(`${baseUrl}/tweets`, {
+        fetch(`${baseUrl}/bulktweets`, {
           method: "POST",
           body: JSON.stringify(tweets),
           headers: { "Content-Type": "application/json" },
@@ -62,16 +62,16 @@ exports.createTweet = function (request, response) {
 };
 
 const constructTweet = (tweetBody) => {
-   return {
-    tweetId:tweetBody.tweetId,
-    tweet:tweetBody.tweet,
+  return {
+    tweetId: tweetBody.tweetId,
+    tweet: tweetBody.tweet,
     imageLink: tweetBody.imageLink,
-    createdBy:tweetBody.createdBy,
-    createdAt:"timeStamp from frontend",
-    likes:[],
-    comments:[]
-  }
-}
+    createdBy: tweetBody.createdBy,
+    createdAt: "timeStamp from frontend",
+    likes: [],
+    comments: [],
+  };
+};
 
 /**
  * Returns Updated Tweet response.
@@ -94,17 +94,20 @@ exports.updateTweetForComments = (request, response) => {
           client.del(tweetKey, function (_err, reply) {
             console.log(reply);
           });
-          client.rpush([tweetKey, JSON.stringify(...tweets)], function (err, _reply) {
-            if (!err) {
-              response.status(200).json({
-                message: "Tweet updated successfully",
-              });
-            } else {
-              response.status(400).json({
-                message: "Unable to process the input",
-              });
+          client.rpush(
+            [tweetKey, JSON.stringify(...tweets)],
+            function (err, _reply) {
+              if (!err) {
+                response.status(200).json({
+                  message: "Tweet updated successfully",
+                });
+              } else {
+                response.status(400).json({
+                  message: "Unable to process the input",
+                });
+              }
             }
-          });
+          );
           break;
         }
       }
@@ -115,7 +118,7 @@ exports.updateTweetForComments = (request, response) => {
         fetch(`${baseUrl}/${request.params.tweetId}/comments`, {
           method: "PUT",
           body: JSON.stringify(request.body),
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" , 'Authorization': request.headers.authorization},
         })
           .then((res) => res.json())
           .then(() =>
@@ -151,28 +154,31 @@ exports.updateTweetForLikes = (request, response) => {
           isFoundInCache = true;
           // User disliked the tweet
           if (request.body.liked == 0) {
-              const index = array.indexOf(request.body.userId);
-              if (index > -1) {
-                tweet.likes.splice(index, 1);
-              }
+            const index = array.indexOf(request.body.userId);
+            if (index > -1) {
+              tweet.likes.splice(index, 1);
+            }
           } else {
-              tweet.likes.push(request.body.userId);
+            tweet.likes.push(request.body.userId);
           }
 
           client.del(tweetKey, function (_err, reply) {
             console.log(reply);
           });
-          client.rpush([tweetKey, JSON.stringify(...tweets)], function (err, _reply) {
-            if (!err) {
-              response.status(200).json({
-                message: "Tweet updated successfully",
-              });
-            } else {
-              response.status(400).json({
-                message: "Unable to process the input",
-              });
+          client.rpush(
+            [tweetKey, JSON.stringify(...tweets)],
+            function (err, _reply) {
+              if (!err) {
+                response.status(200).json({
+                  message: "Tweet updated successfully",
+                });
+              } else {
+                response.status(400).json({
+                  message: "Unable to process the input",
+                });
+              }
             }
-          });
+          );
           break;
         }
       }
@@ -183,7 +189,7 @@ exports.updateTweetForLikes = (request, response) => {
         fetch(`${baseUrl}/${request.params.tweetId}/likes`, {
           method: "PUT",
           body: JSON.stringify(request.body),
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", 'Authorization': request.headers.authorization },
         })
           .then((res) => res.json())
           .then(() =>
@@ -206,25 +212,32 @@ exports.updateTweetForLikes = (request, response) => {
  * @param {request} {HTTP request object}
  * @param {response} {HTTP response object}
  */
-exports.getTweets = (_request, response) => {
-  // Get the Tweets from cache
-  client.lrange(tweetKey, 0, -1, function (err, reply) {
-    if (!err) {
-      const tweets = reply.map(JSON.parse);
-      // call the server api to fetch the previous results
-      fetch(`${baseUrl}/tweets`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-           json.push(...tweets);
-          response.status(200).json(json);
+exports.getTweets = (request, response) => {
+    // Get the Tweets from cache
+    client.lrange(tweetKey, 0, -1, function (err, reply) {
+      if (!err) {
+        const tweets = reply.map(JSON.parse);
+        // call the server api to fetch the previous results
+        fetch(`${baseUrl}/tweets`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json", 
+          'Authorization': request.headers.authorization},
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            json.push(...tweets);
+            response.status(200).json(json);
+          })
+          .catch(err => {
+              response.status(400).json({
+              message: "Cannot process request at this time",
+            });
+          });
+      } else {
+        response.status(400).json({
+          message: "Cannot process request at this time",
         });
-    } else {
-      response.status(400).json({
-        message: "Cannot process request at this time",
-      });
-    }
-  });
+      }
+    });
+  
 };

@@ -3,28 +3,21 @@
  */
 
 "use strict";
+
+const errorHandler = require("../utils/error_handler");
+
 module.exports = function (app) {
   const tweetController = require("../controllers/tweet-controller");
 
   // Tweet Route for creating tweets
-  app.route("/v1/tweets").post(tweetController.createTweets);
+  app.route("/v1/bulktweets").post(tweetController.createTweets, errorHandler);
 
   // Update a Tweet for comments
-  app.route("/v1/:tweetId/comments").put(tweetController.updateTweetForComments);
+  app.route("/v1/:tweetId/comments").put(tweetController.updateTweetForComments, errorHandler);
 
   // Update a Tweet for likes
-  app.route("/v1/:tweetId/likes").put(tweetController.updateTweetForLikes);
+  app.route("/v1/:tweetId/likes").put(tweetController.updateTweetForLikes, errorHandler);
 
   // Get all tweets
-  app.route("/v1/tweets").get(tweetController.getTweets);
-
-  // // Task Routes for Marking a Task as complete
-  // app.route("/v1/tasks/:taskId").put(taskController.updateTask);
-  
-  // // Task routes for getting all available tasks
-  // app.route("/v1/tasks")
-  //   .get(taskController.getTasks);
-
-  //  // Task Routes for clearing all tasks
-  //  app.route("/v1/tasks").delete(taskController.deleteTasks);
+  app.route("/v1/tweets").get(tweetController.getTweets, errorHandler);
 };
