@@ -11,20 +11,17 @@ client.get("key", redis.print);
 
 const fetch = require("node-fetch");
 const serverName = "localhost";
-const cacheTimeOut = 4;
 const baseUrl = `http://${serverName}:5000/v1`;
 
-// clears cache every cacheTimeOut minutes
-setInterval(clearCache, 1000 * 60 * cacheTimeOut);
 
-// Function used to clear cache after every cacheTimeOut minutes and calls the main backend to
+// Function used to clear cache after the cache reached 5 requests and calls the main backend to
 // update the records
 function clearCache() {
   // get the values from cache
   client.lrange(tweetKey, 0, -1, function (err, reply) {
     if (!err) {
       const tweets = reply.map(JSON.parse);
-      if (tweets && tweets.length > 0) {
+      if (tweets && tweets.length >= 5) {
         // call the node server to dump the data
         fetch(`${baseUrl}/bulktweets`, {
           method: "POST",
@@ -33,11 +30,11 @@ function clearCache() {
         })
           .then((res) => res.json())
           .then((json) => console.log(json));
+
+          client.del(tweetKey);
       }
     }
   });
-
-  client.del(tweetKey);
 }
 
 /**
@@ -67,6 +64,10 @@ exports.createTweet = function (request, response) {
       }
     });
   }
+
+  // clear the cache if needed
+  clearCache();
+
 };
 
 const constructTweet = (tweetBody) => {
@@ -102,9 +103,15 @@ exports.updateTweetForComments = (request, response) => {
           client.del(tweetKey, function (_err, reply) {
             console.log(reply);
           });
-          client.rpush(
-            [tweetKey, JSON.stringify(...tweets)],
-            function (err, _reply) {
+
+          //Use multi() to pipeline multiple commands at once
+	        let multi = client.multi();
+         
+	        for (let i = 0; i < tweets.length; i++) {
+		          multi.rpush(tweetKey, JSON.stringify(tweets[i]));
+	        }
+
+	        multi.exec(function (err, _reply) {
               if (!err) {
                 response.status(200).json({
                   message: "Tweet updated successfully",
@@ -176,16 +183,30 @@ exports.updateTweetForLikes = (request, response) => {
           client.del(tweetKey, function (_err, reply) {
             console.log(reply);
           });
-          client.rpush(
-            [tweetKey, JSON.stringify(...tweets)],
-            function (err, _reply) {
+
+          
+	        //Use multi() to pipeline multiple commands at once
+	        let multi = client.multi();
+         
+	        for (let i = 0; i < tweets.length; i++) {
+		          multi.rpush(tweetKey, JSON.stringify(tweets[i]));
+	        }
+
+	        multi.exec(function (err, _reply) {
               if (!err) {
+                client.lrange(tweetKey, 0, -1, function (err, reply) {
+                  if (!err) {
+                    const tweets = reply.map(JSON.parse);
+                    console.log('Updated!!');
+                    console.log(tweets);
+                  }
+                });
                 response.status(200).json({
                   message: "Tweet updated successfully",
                 });
               } else {
                 response.status(400).json({
-                  message: "Unable to process the input",
+                  message: err,
                 });
               }
             }
