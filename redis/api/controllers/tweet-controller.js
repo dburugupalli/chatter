@@ -76,7 +76,7 @@ const constructTweet = (tweetBody) => {
     tweet: tweetBody.tweet,
     imageLink: tweetBody.imageLink,
     createdBy: tweetBody.createdBy,
-    createdAt: "timeStamp from frontend",
+    createdAt: tweetBody.createdAt,
     likes: [],
     comments: [],
   };

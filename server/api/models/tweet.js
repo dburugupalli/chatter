@@ -27,6 +27,7 @@ let tweetSchema = new Schema(
      * Tweet Created by
      */
     createdBy: {
+      displayName: String,
       userName: {
         type: String
       },
@@ -57,6 +58,7 @@ let tweetSchema = new Schema(
     comments: [{ 
       commentId:String,
       commentedBy:String,
+      userName: String,
       avatarLink:String,
       comment:String 
     }]
