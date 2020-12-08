@@ -1,4 +1,4 @@
 module.exports = {
-    MONGODB_URL: "mongodb://localhost:27017/chatterDev",
+    MONGODB_URL: "mongodb://mongo:27017/chatterDev",
     PORT: 5000
   };  

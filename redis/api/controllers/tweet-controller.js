@@ -1,7 +1,7 @@
 "use strict";
 const redis = require("redis");
 const client = redis.createClient({
-  host: "localhost",
+  host: process.env.REDIS_NODE,
   port: 6379,
 });
 
@@ -10,7 +10,7 @@ client.set("key", tweetKey, redis.print);
 client.get("key", redis.print);
 
 const fetch = require("node-fetch");
-const serverName = "localhost";
+const serverName = process.env.BACKEND_SERVER_NAME;
 const baseUrl = `http://${serverName}:5000/v1`;
 
 
