@@ -6,7 +6,6 @@ import { Avatar, Button } from "@material-ui/core";
 const TweetBox = (forwardRef (
   ({avatarName, triggerNewTweet}, ref) => {
   const [tweetMessage, setTweetMessage] = useState("");
-  const [tweetImage, setTweetImage] = useState("");
 
   const sendTweet = (e) => {
     e.preventDefault();
@@ -25,7 +24,6 @@ const TweetBox = (forwardRef (
     triggerNewTweet(tweetMessage);
 
     setTweetMessage("");
-    setTweetImage("");
   };
 
   return (

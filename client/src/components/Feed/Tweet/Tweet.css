@@ -43,3 +43,69 @@
   .post__avatar {
     padding: 20px;
   }
+
+  .favorite_icon {
+    color: '#5B7083',
+  }
+
+  .favorite_icon:hover {
+    color: rgb(224, 36, 94);
+    cursor: pointer;
+  }
+
+  .favorite_icon_selected {
+    color:rgb(224, 36, 94);
+    cursor: pointer;
+  }
+
+  .commentBox {
+    padding-bottom: 10px;
+    padding-right: 10px;
+  }
+
+  .commentBox__commentButton {
+    background-color: var(--twitter-color) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 900 !important;
+    text-transform: inherit !important;
+    border-radius: 30px !important;
+    width: 80px;
+    height: 40px !important;
+    margin-top: 20px !important;
+    margin-left: auto !important;
+  }
+
+  .commentBox > form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .commentBox__input {
+    padding: 20px;
+    display: flex;
+  }
+  
+  .commentBox__input > input {
+    flex: 1;
+    margin-left: 20px;
+    font-size: 20px;
+    border: none;
+    outline: none !important;
+  }
+
+  *{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+.allComments {
+  margin-top: 20px;
+  border: 1px solid #50b7f5;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
