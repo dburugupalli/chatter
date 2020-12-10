@@ -1,3 +1,6 @@
+/**
+ * Component for SignIn
+ */
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -10,9 +13,11 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { setSessionCookie } from "../../Cookies";
+import { setSessionCookie } from "../../utils/Cookies";
 import Alert from "@material-ui/lab/Alert";
+import { authenticateUserInfo } from "../../utils/ApiManager";
 
+// Function for copyright UI
 export function Copyright() {
   return (
     <Typography
@@ -64,13 +69,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// SignIn function definition
 export default function SignIn({ changeActiveRoute, history }) {
   const classes = useStyles();
-  const baseUrl = "http://localhost:3000/v1";
+
+  // State for username and password
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+  // State to show auth failed/succeeded
   const [isUserEntryValid, setIsUserEntryValid] = useState(true);
 
+  // Authenticate a user using API endpoint
   const authenticateUser = async (e) => {
     try {
       setIsUserEntryValid(true);
@@ -83,10 +93,11 @@ export default function SignIn({ changeActiveRoute, history }) {
       };
 
       const userInfoReceived = await authenticateUserInfo(userRequest);
-      userInfoReceived.displayName = userInfoReceived.firstName.concat(
-        " "
-      ).concat(userInfoReceived.lastName);
+      userInfoReceived.displayName = userInfoReceived.firstName
+        .concat(" ")
+        .concat(userInfoReceived.lastName);
 
+      // Set session for user
       setSessionCookie(userInfoReceived);
       history.push("/home");
     } catch (error) {
@@ -95,21 +106,7 @@ export default function SignIn({ changeActiveRoute, history }) {
     }
   };
 
-  const authenticateUserInfo = async (userInfo) => {
-    try {
-      const response = await fetch(`${baseUrl}/authenticate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInfo),
-      });
-      return response.json();
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
+  // Main render for SignIn UI
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

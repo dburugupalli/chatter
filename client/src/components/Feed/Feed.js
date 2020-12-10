@@ -1,3 +1,6 @@
+/**
+ * Component Responsible for showing Home Feed to users
+ */
 import React, { useState, useEffect } from "react";
 import "./Feed.css";
 import Tweet from "./Tweet/Tweet";
@@ -5,36 +8,30 @@ import TweetBox from "./TweetBox/TweetBox";
 import FlipMove from "react-flip-move";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
+import { getTweets, postTweet, updateTweetComments, updateTweetFavorites} from "../../utils/ApiManager";
 
-const baseUrl = "http://localhost:3000/v1";
 
-
+// Feed Function Definition
 function Feed({userInfo}) {
   const [tweets, setTweets] = useState([]);
-  const getTweets = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/tweets`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            `Bearer ${userInfo.token}`,
-        },
-      });
-      return response.json();
-    } catch (error) {
-      console.log("Some issue occured !!", error.message);
-    }
-  };
 
+   /**
+   * SECTION START FOR
+   * Tweet Management by calling helper functions in APIManager.js
+   * 
+   */
+
+  // Use effect to get the tweets from redis
   useEffect(() => {
     async function fetchTweets() {
-      let response = await getTweets();
+      let response = await getTweets(userInfo.token);
       setTweets(response.reverse());
     }
     fetchTweets();
   }, []);
 
+ 
+  // Function to construct the tweet and call api to post a new tweet
   const sendTweet = async (tweetMessage) => {
     try {
       // make the fetch api call and change the tweets state if success
@@ -53,11 +50,11 @@ function Feed({userInfo}) {
         comments: [],
       };
 
-      // call the post api
-      await apiSendTweet(tweet);
-
+      // call the post Tweet api
+      await postTweet(tweet, userInfo.token)
       // update the tweets
       const currentTweets = tweets;
+      // update state
       setTweets([tweet, ...currentTweets]);
       
     } catch (error) {
@@ -66,7 +63,73 @@ function Feed({userInfo}) {
     }
   };
 
-  const updateTweetState = (tweetId, userId, liked) => {
+  // Function to construct requestBody and call api to like a tweet
+  const addTweetToFavorites = async (tweetId) => {
+    try {
+      const reqBody = {
+        userId: userInfo.id,
+        liked: 1,
+      };
+      await updateTweetFavorites(tweetId, reqBody, userInfo.token);
+
+      // Update the tweets in state
+      updateTweetStateForFavorites(tweetId, reqBody.userId, reqBody.liked);
+    } catch (error) {
+      console.log(error);
+      console.log("Some error occured");
+    }
+  };
+
+  // Function to construct requestBody and call api to dislike a tweet
+  const removeTweetFromFavorites = async (tweetId) => {
+    try {
+      const reqBody = {
+        userId: userInfo.id,
+        liked: 0,
+      };
+
+      await updateTweetFavorites(tweetId, reqBody, userInfo.token);
+
+      // Update the tweets in state
+      updateTweetStateForFavorites(tweetId, reqBody.userId, reqBody.liked);
+    } catch (error) {
+      console.log(error);
+      console.log("Some error occured");
+    }
+  };
+
+  // Function to construct requestBody and call api to comment on a tweet
+  const addCommentToTweet = async (tweetId, comment) => {
+    try {
+      const reqBody = {
+        commentId: uuidv4(),
+        commentedBy: userInfo.displayName,
+        userName: userInfo.username,
+        avatarLink: "",
+        comment: comment,
+      };
+      console.log(tweetId);
+      await updateTweetComments(tweetId, reqBody, userInfo.token);
+
+      // Update the tweets in state
+      updateTweetStateForComments(tweetId, reqBody);
+    } catch (error) {
+      console.log(error);
+      console.log("Some error occured");
+    }
+  };
+
+
+  //-------------- END OF SECTION ---------------------------//
+
+  /**
+   * SECTION START FOR
+   * Tweet Management by updating state
+   * 
+   */
+
+  // Function to update tweet state for Like/DisLike
+  const updateTweetStateForFavorites = (tweetId, userId, liked) => {
     let index = tweets.findIndex((tweet) => tweet.tweetId === tweetId);
     if (index === -1) return;
     else {
@@ -89,6 +152,7 @@ function Feed({userInfo}) {
     }
   };
 
+  // Function to update Tweet state for comments
   const updateTweetStateForComments = (tweetId, commentBody) => {
     let index = tweets.findIndex((tweet) => tweet.tweetId === tweetId);
     if (index === -1) return;
@@ -104,112 +168,8 @@ function Feed({userInfo}) {
     }
   };
 
-  const addTweetToFavorites = async (tweetId) => {
-    try {
-      const reqBody = {
-        userId: userInfo.id,
-        liked: 1,
-      };
-      console.log(tweetId);
-      await updateTweetFavorites(tweetId, reqBody);
-
-      // Update the tweets in state
-      updateTweetState(tweetId, reqBody.userId, reqBody.liked);
-    } catch (error) {
-      console.log(error);
-      console.log("Some error occured");
-    }
-  };
-
-  const addCommentToTweet = async (tweetId, comment) => {
-    try {
-      const reqBody = {
-        commentId: uuidv4(),
-        commentedBy: userInfo.displayName,
-        userName: userInfo.username,
-        avatarLink: "",
-        comment: comment,
-      };
-      console.log(tweetId);
-      await updateTweetComments(tweetId, reqBody);
-
-      // Update the tweets in state
-      updateTweetStateForComments(tweetId, reqBody);
-    } catch (error) {
-      console.log(error);
-      console.log("Some error occured");
-    }
-  };
-
-  const updateTweetComments = async (tweetId, reqBody) => {
-    console.log(tweetId);
-    try {
-      const response = await fetch(`${baseUrl}/${tweetId}/comments`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            `Bearer ${userInfo.token}`,
-        },
-        body: JSON.stringify(reqBody),
-      });
-      return response.json();
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
-  const removeTweetFromFavorites = async (tweetId) => {
-    try {
-      const reqBody = {
-        userId: userInfo.id,
-        liked: 0,
-      };
-
-      await updateTweetFavorites(tweetId, reqBody);
-      // Update the tweets in state
-      updateTweetState(tweetId, reqBody.userId, reqBody.liked);
-    } catch (error) {
-      console.log(error);
-      console.log("Some error occured");
-    }
-  };
-
-  const updateTweetFavorites = async (tweetId, reqBody) => {
-    console.log(tweetId);
-    try {
-      const response = await fetch(`${baseUrl}/${tweetId}/likes`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            `Bearer ${userInfo.token}`,
-        },
-        body: JSON.stringify(reqBody),
-      });
-      return response.json();
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
-  const apiSendTweet = async (tweet) => {
-    try {
-      const response = await fetch(`${baseUrl}/tweets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            `Bearer ${userInfo.token}`,
-        },
-        body: JSON.stringify(tweet),
-      });
-      return response.json();
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
+  
+  // Main render function for UI
   return (
     <div className="feed">
       <div className="feed__header">

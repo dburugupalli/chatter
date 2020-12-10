@@ -1,13 +1,20 @@
+/**
+ * Component responsible for holding entire Application
+ * This included Sidebar, Home Feed, Widgets, Auth
+ */
 import React, { useEffect, useState, useContext } from "react";
 import { Router, Switch, Route, Redirect } from "react-router";
-import Home from "./Home";
+import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
 import { createBrowserHistory } from "history";
-import { SessionContext, getSessionCookie } from "./Cookies";
+import { SessionContext, getSessionCookie } from "./utils/Cookies";
 import Cookies from "js-cookie";
 
+// History to store user Browsing, helps for maintaining 
+// visited link stack
 const history = createBrowserHistory();
 
+// All application routes
 const Routes = () => {
   const [session] = useState(getSessionCookie());
   return (
@@ -24,10 +31,12 @@ const Routes = () => {
   );
 };
 
+// Helper Function to handle Auth Routes (SignIn & Register)
 const AuthHandler = ({history}) => {
   return <Auth history={history} />;
 };
 
+// Helper Function to handle LogOut Route
 export const LogoutHandler = ({ history }) => {
   useEffect(
     () => {
@@ -39,9 +48,11 @@ export const LogoutHandler = ({ history }) => {
   return null;
 };
 
+// Helper Function to handle Protected route (/home)
 const ProtectedHandler = ({ history }) => {
   let cookie = useContext(SessionContext);
   cookie = getSessionCookie();
+  // check if user is authenticated
   if (cookie.username === undefined) {
     history.push("/auth");
     return null;
@@ -54,6 +65,7 @@ const ProtectedHandler = ({ history }) => {
   }
 };
 
+// Root Function for entire Application
 const App = () => (
   <div className="App">
     <Routes />

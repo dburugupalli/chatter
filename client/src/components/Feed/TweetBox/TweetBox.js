@@ -1,17 +1,26 @@
+/**
+ * Component Responsible for Tweet Message Holder
+ */
 import React, { useState, forwardRef } from "react";
 import "./TweetBox.css";
 import { Avatar, Button, Snackbar } from "@material-ui/core";
 import { bannedWords } from "../../../utils/Constants";
 import Alert from "@material-ui/lab/Alert";
 
-const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, ref) => {
+// Function Definition for TweetBox
+const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, _ref) => {
+  // States for Tweet Message and Banned Words
   const [tweetMessage, setTweetMessage] = useState("");
   const [isBannedWordUsed, setIsBannedWordUsed] = useState(false);
+
+  // State for Snackbar
   const [state] = useState({
     vertical: "top",
     horizontal: "center",
   });
   const { vertical, horizontal } = state;
+
+  // Helper function to trigger a tweet send request in parent (Feed.js)
   const sendTweet = (e) => {
     e.preventDefault();
     // check for banned words
@@ -26,10 +35,10 @@ const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, ref) => {
       setTimeout(() => {
         setIsBannedWordUsed(false);
       }, 3000);
-      console.log("Foul language used");
     }
   };
 
+  // Helper function to check if the Tweet Message has used banned words
   const isMessageSanitized = (message) => {
     const wordsInMessage = message.toLowerCase().split(" ");
     let commonWords = wordsInMessage.filter((word) =>
@@ -39,6 +48,7 @@ const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, ref) => {
     return commonWords.length === 0;
   };
 
+  // Main render function to display Tweet Box UI
   return (
     <div className="tweetBox">
       <form>
