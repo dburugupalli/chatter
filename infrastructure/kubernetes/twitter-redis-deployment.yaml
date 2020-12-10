@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-redis
+  labels:
+    app: twitter-redis
+spec:
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: twitter-redis
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: twitter-redis
+    spec:
+      containers:
+        - image: bdsaisantosh/twitter-redis:latest
+          imagePullPolicy: Always
+          name: twitter-redis
+          env:
+            - name: BACKEND_SERVER_NAME
+              value: twitter-backend-lb
+            - name: REDIS_NODE
+              value: redis-node
+          ports:
+          - containerPort: 3000
