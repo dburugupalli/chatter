@@ -24,3 +24,22 @@
     height: 50px !important;
     margin-top: 20px !important;
   }
+
+  .btnLogOut {
+    width: 115px;
+    height: 25px;
+    background-color: var(--twitter-color) !important;
+    padding: 10px;
+    text-align: center;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-decoration: none;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 50px;
+}

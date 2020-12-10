@@ -8,9 +8,9 @@ import moment from "moment";
 
 const baseUrl = "http://localhost:3000/v1";
 
-function Feed() {
-  const [tweets, setTweets] = useState([]);
 
+function Feed({userInfo}) {
+  const [tweets, setTweets] = useState([]);
   const getTweets = async () => {
     try {
       const response = await fetch(`${baseUrl}/tweets`, {
@@ -18,7 +18,7 @@ function Feed() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZmNjMzAyNzA1MTk1NzU4YjNkNDRiMWEiLCJpYXQiOjE2MDcyMTcyMTcsImV4cCI6MTYwNzgyMjAxN30.WAZxam4Arme_8mESOeimOXElpY4tUMRwU6_Hg7RAV-o",
+            `Bearer ${userInfo.token}`,
         },
       });
       return response.json();
@@ -32,7 +32,6 @@ function Feed() {
       let response = await getTweets();
       setTweets(response.reverse());
     }
-
     fetchTweets();
   }, []);
 
@@ -44,8 +43,8 @@ function Feed() {
         tweetId: uuidv4(),
         tweet: tweetMessage,
         createdBy: {
-          displayName: "Ravi Kumar",
-          userName: "ravi",
+          displayName: userInfo.displayName,
+          userName: userInfo.username,
           avatarLink: "",
         },
         createdAt: moment().format(),
@@ -59,11 +58,8 @@ function Feed() {
 
       // update the tweets
       const currentTweets = tweets;
-      // currentTweets.unshift(tweet);
-
-      // console.log(currentTweets);
-
       setTweets([tweet, ...currentTweets]);
+      
     } catch (error) {
       console.log(error);
       console.log("Some error occured");
@@ -111,7 +107,7 @@ function Feed() {
   const addTweetToFavorites = async (tweetId) => {
     try {
       const reqBody = {
-        userId: "5fd037979364aac820b769c5",
+        userId: userInfo.id,
         liked: 1,
       };
       console.log(tweetId);
@@ -129,8 +125,8 @@ function Feed() {
     try {
       const reqBody = {
         commentId: uuidv4(),
-        commentedBy: "Ravi Kumar",
-        userName:"ravi",
+        commentedBy: userInfo.displayName,
+        userName: userInfo.username,
         avatarLink: "",
         comment: comment,
       };
@@ -153,7 +149,7 @@ function Feed() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZmNjMzAyNzA1MTk1NzU4YjNkNDRiMWEiLCJpYXQiOjE2MDcyMTcyMTcsImV4cCI6MTYwNzgyMjAxN30.WAZxam4Arme_8mESOeimOXElpY4tUMRwU6_Hg7RAV-o",
+            `Bearer ${userInfo.token}`,
         },
         body: JSON.stringify(reqBody),
       });
@@ -166,7 +162,7 @@ function Feed() {
   const removeTweetFromFavorites = async (tweetId) => {
     try {
       const reqBody = {
-        userId: "5fd037979364aac820b769c5",
+        userId: userInfo.id,
         liked: 0,
       };
 
@@ -187,7 +183,7 @@ function Feed() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZmNjMzAyNzA1MTk1NzU4YjNkNDRiMWEiLCJpYXQiOjE2MDcyMTcyMTcsImV4cCI6MTYwNzgyMjAxN30.WAZxam4Arme_8mESOeimOXElpY4tUMRwU6_Hg7RAV-o",
+            `Bearer ${userInfo.token}`,
         },
         body: JSON.stringify(reqBody),
       });
@@ -204,7 +200,7 @@ function Feed() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZmNjMzAyNzA1MTk1NzU4YjNkNDRiMWEiLCJpYXQiOjE2MDcyMTcyMTcsImV4cCI6MTYwNzgyMjAxN30.WAZxam4Arme_8mESOeimOXElpY4tUMRwU6_Hg7RAV-o",
+            `Bearer ${userInfo.token}`,
         },
         body: JSON.stringify(tweet),
       });
@@ -219,7 +215,7 @@ function Feed() {
       <div className="feed__header">
         <h2>Home</h2>
       </div>
-      <TweetBox triggerNewTweet={sendTweet} avatarName={"Ravi Kumar"} />
+      <TweetBox triggerNewTweet={sendTweet} avatarName={userInfo.displayName} />
       <FlipMove>
         {tweets.map((tweet, index) => (
           <Tweet

@@ -167,6 +167,7 @@ const Tweet = forwardRef(
         <div className="commentBox__input">
           <Avatar src={`https://ui-avatars.com/api/?name=${displayName}`} />
           <input
+            style={{border: '1px solid gray'}}
             onChange={(e) => setComment(e.target.value)}
             value={comment}
             placeholder="Tweet your reply"
@@ -182,11 +183,9 @@ const Tweet = forwardRef(
         </Button>
       </form>
     </div>
-    <div className="allComments">
-      {comments.length > 0 ? 
-        comments.map((comment) => renderComment(comment))
-        : null}
-    </div>
+    {comments.length > 0 ? 
+    <div className="allComments">{comments.map((comment) => renderComment(comment))}</div>
+     : null}
           </div>
         </Fade>
       </Modal>

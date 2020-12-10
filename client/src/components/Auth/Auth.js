@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-
-function Auth() {
+function Auth({history}) {
 
   const [isSignUpActive, setActiveRoute] = useState(false);
 
@@ -12,7 +11,7 @@ function Auth() {
   }
 
   return (
-    isSignUpActive ? <SignUp changeActiveRoute={toggleActiveRoute}/> : <SignIn changeActiveRoute={toggleActiveRoute}/>
+    isSignUpActive ? <SignUp history={history} changeActiveRoute={toggleActiveRoute}/> : <SignIn history={history} changeActiveRoute={toggleActiveRoute}/>
   );
 }
 

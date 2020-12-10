@@ -262,7 +262,6 @@ exports.updateTweetForLikes = (request, response) => {
  * @param {response} {HTTP response object}
  */
 exports.getTweets = (request, response) => {
-  client.del(tweetKey);
   try {
     // Get the Tweets from cache
     client.lrange(tweetKey, 0, -1, function (err, reply) {
