@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Tweet = forwardRef(
-  ({ displayName, username, text, image, likes, comments, tweetId, addTweetToFavorites, removeTweetFromFavorites, triggerNewComment }, ref) => {
+  ({ displayName, loggedInUserId, loggedInUserDisplayName, username, text, image, likes, comments, tweetId, addTweetToFavorites, removeTweetFromFavorites, triggerNewComment }, ref) => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -117,7 +117,7 @@ const Tweet = forwardRef(
           <div className="post__footer">
             <CommentIcon fontSize="small" style={{paddingRight: 4, color: comments && comments.length > 0 ? '#50B7F5' :'#5B7083', cursor:'pointer'}} onClick={handleOpen}/>
             <label style={{fontSize: 'medium',paddingRight: 20,color: '#5B7083'}}>{comments.length}</label>
-            {likes && likes.indexOf('5fd037979364aac820b769c5') > -1 ? 
+            {likes && likes.indexOf(loggedInUserId) > -1 ? 
                <FavoriteIcon fontSize="small" className="favorite_icon_selected"
                onClick={handleUnFavoriteClick}
                ></FavoriteIcon>:
@@ -165,9 +165,9 @@ const Tweet = forwardRef(
           <div className="commentBox">
         <form>
         <div className="commentBox__input">
-          <Avatar src={`https://ui-avatars.com/api/?name=${displayName}`} />
+          <Avatar src={`https://ui-avatars.com/api/?name=${loggedInUserDisplayName}`} />
           <input
-            style={{border: '1px solid gray'}}
+            style={{border: '1px solid gray', padding:20}}
             onChange={(e) => setComment(e.target.value)}
             value={comment}
             placeholder="Tweet your reply"

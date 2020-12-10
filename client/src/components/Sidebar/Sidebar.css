@@ -41,5 +41,10 @@
     text-decoration: none;
     position: absolute;
     bottom: 0;
+    cursor: pointer;
     margin-bottom: 50px;
+}
+
+.btnLogOut * {
+  cursor: pointer;
 }

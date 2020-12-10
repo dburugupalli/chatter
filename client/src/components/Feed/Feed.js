@@ -223,6 +223,8 @@ function Feed({userInfo}) {
             tweetId={tweet.tweetId}
             displayName={tweet.createdBy.displayName}
             username={tweet.createdBy.userName}
+            loggedInUserId={userInfo.id}
+            loggedInUserDisplayName={userInfo.displayName}
             text={tweet.tweet}
             avatar={""}
             triggerNewComment={addCommentToTweet}
