@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.serverappName }}
+  name: twitter-redis
   labels:
-    app: {{ .Values.serverappName }}
+    app: twitter-redis
 spec:
   replicas: 2
   selector: 
     matchLabels: 
-      app: {{ .Values.serverappName }}
+      app: twitter-redis
   minReadySeconds: 15
   strategy:
     type: RollingUpdate
@@ -18,14 +18,16 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.serverappName }}
+        app: twitter-redis
     spec:
       containers:
-        - image: bdsaisantosh/twitter-server:latest
+        - image: bdsaisantosh/twitter-redis:latest
           imagePullPolicy: Always
-          name: {{ .Values.serverappName }}
+          name: twitter-redis
           env:
-            - name: MONGO_URL
-              value: {{.Values.serverappEnvValue}}
+            - name: BACKEND_SERVER_NAME
+              value: twitter-backend-lb
+            - name: REDIS_NODE
+              value: redis-node
           ports:
-          - containerPort: 5000
+          - containerPort: 3000
