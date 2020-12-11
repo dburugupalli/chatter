@@ -8,17 +8,21 @@ import TweetBox from "./TweetBox/TweetBox";
 import FlipMove from "react-flip-move";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
-import { getTweets, postTweet, updateTweetComments, updateTweetFavorites} from "../../utils/ApiManager";
-
+import {
+  getTweets,
+  postTweet,
+  updateTweetComments,
+  updateTweetFavorites,
+} from "../../utils/ApiManager";
 
 // Feed Function Definition
-function Feed({userInfo}) {
+function Feed({ userInfo }) {
   const [tweets, setTweets] = useState([]);
 
-   /**
+  /**
    * SECTION START FOR
    * Tweet Management by calling helper functions in APIManager.js
-   * 
+   *
    */
 
   // Use effect to get the tweets from redis
@@ -30,7 +34,6 @@ function Feed({userInfo}) {
     fetchTweets();
   }, []);
 
- 
   // Function to construct the tweet and call api to post a new tweet
   const sendTweet = async (tweetMessage, imageUrl) => {
     try {
@@ -51,12 +54,11 @@ function Feed({userInfo}) {
       };
 
       // call the post Tweet api
-      await postTweet(tweet, userInfo.token)
+      await postTweet(tweet, userInfo.token);
       // update the tweets
       const currentTweets = tweets;
       // update state
       setTweets([tweet, ...currentTweets]);
-      
     } catch (error) {
       console.log(error);
       console.log("Some error occured");
@@ -119,13 +121,12 @@ function Feed({userInfo}) {
     }
   };
 
-
   //-------------- END OF SECTION ---------------------------//
 
   /**
    * SECTION START FOR
    * Tweet Management by updating state
-   * 
+   *
    */
 
   // Function to update tweet state for Like/DisLike
@@ -168,7 +169,6 @@ function Feed({userInfo}) {
     }
   };
 
-  
   // Main render function for UI
   return (
     <div className="feed">
