@@ -12,27 +12,27 @@ Developed a Twitter application where user can tweet and see the recent tweet fr
 # Installation Guide
 
 ## Frontend Technologies
-•	React: https://react-cn.github.io/react/downloads.html 
-•	React Native: https://reactnative.dev/ 
-•	Command to create react native project- npx react-native init {Application Name}
+•	React: https://react-cn.github.io/react/downloads.html </br>
+•	React Native: https://reactnative.dev/ </br>
+•	Command to create react native project- npx react-native init {Application Name} </br>
 
 ## Backend Technologies 
-•	Node Js: https://nodejs.org/en/download/
-•	Mongo DB: MongoDB_Download_Link
-•	Redis Server: https://redis.io/download
+•	Node Js: https://nodejs.org/en/download/ </br>
+•	Mongo DB: MongoDB_Download_Link </br>
+•	Redis Server: https://redis.io/download </br>
 
 ## Server Technologies
-•	Docker CLI: https://docs.docker.com/docker-for-mac/install/ 
-•	Kubernetes: https://kubernetes.io/docs/tasks/tools/install-kubectl/ 
-•	EKS: https://minikube.sigs.k8s.io/docs/start/ 
-•	Helm Chart: https://helm.sh/docs/helm/helm_pull/ 
-•	AWS CLI:  https://awscli.amazonaws.com/AWSCLIV2.msi
-•	Prometheus: https://prometheus.io/download/ 
-•	Terraform: https://www.terraform.io/downloads.html 
+•	Docker CLI: https://docs.docker.com/docker-for-mac/install/ </br>
+•	Kubernetes: https://kubernetes.io/docs/tasks/tools/install-kubectl/ </br>
+•	EKS: https://minikube.sigs.k8s.io/docs/start/ </br>
+•	Helm Chart: https://helm.sh/docs/helm/helm_pull/ </br>
+•	AWS CLI:  https://awscli.amazonaws.com/AWSCLIV2.msi</br>
+•	Prometheus: https://prometheus.io/download/ </br>
+•	Terraform: https://www.terraform.io/downloads.html </br>
 
 
 ## Logging Technologies
-•	
+•
 
 
 # Command to Run Project
@@ -82,7 +82,9 @@ Developed a Twitter application where user can tweet and see the recent tweet fr
 ## Prometheus Server
 ###	Special installation needed:
 ###	Commands to Run:
-    o	
+```shell
+        o	
+```
 
 
 
