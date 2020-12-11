@@ -2,7 +2,7 @@
  * Component Responsible for showing each tweet,
  * Modal for commenting, Interface for user action on tweets
  */
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import "./Tweet.css";
 import { Avatar, Button } from "@material-ui/core";
 import CommentIcon from "@material-ui/icons/Comment";
@@ -54,6 +54,20 @@ const Tweet = forwardRef(
     ref
   ) => {
     const classes = useStyles();
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+      function handleResize() {
+        setWindowWidth(window.innerWidth);
+      }
+  
+      window.addEventListener("resize", handleResize);
+  
+      return (_) => {
+        window.removeEventListener("resize", handleResize);
+      };
+    });
 
     // States for Comment Modal and comment
     const [open, setOpen] = useState(false);
@@ -134,7 +148,9 @@ const Tweet = forwardRef(
             </div>
           </div>
           {image ? (
-            <img src={image} alt="tweetImage" style={{ width: 450 }} />
+            windowWidth > 500 ?
+            <img src={image} alt="tweetImage" style={{ width: 400 }} />
+            : <img src={image} alt="tweetImage" style={{ width: 250 }} />
           ) : null}
           <div className="post__footer">
             <CommentIcon
