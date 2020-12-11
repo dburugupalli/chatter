@@ -1,7 +1,7 @@
 /**
  * Component Responsible for Siderbar UI and icons
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import SidebarOption from "./SidebarOption";
@@ -12,7 +12,52 @@ import { Avatar } from "@material-ui/core";
 
 // Function definition for Sidebar
 function Sidebar({ userInfo }) {
-  return (
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return (_) => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
+
+  const renderReducedSideBar = () => {
+    return (
+      <div className="sidebar sidebar_reduced">
+        <TwitterIcon className="sidebar__twitterIcon" />
+        <SidebarOption active Icon={HomeIcon} />
+        <div>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                position: "absolute",
+                bottom: 0,
+                marginBottom: "120px",
+              }}
+            >
+              <div>
+                <Avatar
+                  src={`https://ui-avatars.com/api/?name=${userInfo.displayName}`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <Link className="btnLogOut btnLogOut_reduced" to="/logout">
+          <ExitToAppIcon />
+        </Link>
+      </div>
+    );
+  };
+
+  return windowWidth > 900 ? (
     <div className="sidebar">
       <TwitterIcon className="sidebar__twitterIcon" />
       <SidebarOption active Icon={HomeIcon} text="Home" />
@@ -50,6 +95,8 @@ function Sidebar({ userInfo }) {
         <ExitToAppIcon />
       </Link>
     </div>
+  ) : (
+    renderReducedSideBar()
   );
 }
 

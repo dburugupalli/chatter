@@ -21,14 +21,6 @@ import { authenticateUserInfo } from "../../utils/ApiManager";
 export function Copyright() {
   return (
     <Typography
-      style={{
-        position: "absolute",
-        bottom: 0,
-        padding: "20px",
-        paddingLeft: 120,
-        display: "flex",
-        justifyContent: "center",
-      }}
       variant="body2"
       color="textSecondary"
       align="center"
