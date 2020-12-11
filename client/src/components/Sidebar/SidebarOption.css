@@ -24,3 +24,7 @@
   .sidebarOption--active {
     color: var(--twitter-color);
   }
+
+  .sidebar_reduced .sidebarOption > .MuiSvgIcon-root  {
+    padding-left: 10px;
+  }
