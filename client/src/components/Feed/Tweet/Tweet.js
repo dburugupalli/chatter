@@ -133,7 +133,9 @@ const Tweet = forwardRef(
               <p style={{ maxWidth: 500 }}>{text}</p>
             </div>
           </div>
-          <img src={image} alt="" />
+          {image ? (
+            <img src={image} alt="tweetImage" style={{ width: 450 }} />
+          ) : null}
           <div className="post__footer">
             <CommentIcon
               fontSize="small"

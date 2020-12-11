@@ -4,8 +4,9 @@
 import React, { useState, forwardRef } from "react";
 import "./TweetBox.css";
 import { Avatar, Button, Snackbar } from "@material-ui/core";
-import { bannedWords } from "../../../utils/Constants";
+import { bannedWords, cloudinaryName, cloudinaryPreset } from "../../../utils/Constants";
 import Alert from "@material-ui/lab/Alert";
+import AddPhotoAlternateOutlinedIcon from "@material-ui/icons/AddPhotoAlternateOutlined";
 
 // Function Definition for TweetBox
 const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, _ref) => {
@@ -20,14 +21,19 @@ const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, _ref) => {
   });
   const { vertical, horizontal } = state;
 
+  // State for image Uploads
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageAlt, setImageAlt] = useState("myImage");
+
   // Helper function to trigger a tweet send request in parent (Feed.js)
   const sendTweet = (e) => {
     e.preventDefault();
     // check for banned words
     if (isMessageSanitized(tweetMessage.trim())) {
       // post api call trigger in parent component
-      triggerNewTweet(tweetMessage.trim());
+      triggerNewTweet(tweetMessage.trim(), imageUrl);
       setTweetMessage("");
+      setImageUrl("");
     } else {
       // update foul error popup show
       setIsBannedWordUsed(true);
@@ -48,6 +54,30 @@ const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, _ref) => {
     return commonWords.length === 0;
   };
 
+   // Function to handle image uploads via Cloudinary widget
+   const openWidget = () => {
+    // create the widget
+    const widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: cloudinaryName,
+        uploadPreset: cloudinaryPreset,
+        multiple: false,
+        cropping: true,
+        resourceType: "image",
+        clientAllowedFormats:["png", "gif", "jpeg", "jpg"]
+      },
+      (error, result) => {
+        if (result.event === "success") {
+          setImageUrl(result.info.secure_url);
+          setImageAlt(`An image of ${result.info.original_filename}`);
+        } else {
+          console.log("Some error occurred while uploading images", error);
+        }
+      }
+    );
+    widget.open(); // open up the widget after creation
+  };
+
   // Main render function to display Tweet Box UI
   return (
     <div className="tweetBox">
@@ -60,6 +90,15 @@ const TweetBox = forwardRef(({ avatarName, triggerNewTweet }, _ref) => {
             placeholder="What's happening?"
             type="text"
           />
+          <AddPhotoAlternateOutlinedIcon
+            onClick={openWidget}
+            style={{ marginTop: "auto", cursor: "pointer" }}
+          />
+        </div>
+        <div>
+          {imageUrl && (
+            <img src={imageUrl} alt={imageAlt} className="displayed_image" />
+          )}
         </div>
         <Button
           onClick={sendTweet}

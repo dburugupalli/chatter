@@ -32,7 +32,7 @@ function Feed({userInfo}) {
 
  
   // Function to construct the tweet and call api to post a new tweet
-  const sendTweet = async (tweetMessage) => {
+  const sendTweet = async (tweetMessage, imageUrl) => {
     try {
       // make the fetch api call and change the tweets state if success
       console.log(tweetMessage);
@@ -45,7 +45,7 @@ function Feed({userInfo}) {
           avatarLink: "",
         },
         createdAt: moment().format(),
-        imageLink: "",
+        imageLink: imageUrl,
         likes: [],
         comments: [],
       };
@@ -190,7 +190,7 @@ function Feed({userInfo}) {
             triggerNewComment={addCommentToTweet}
             addTweetToFavorites={addTweetToFavorites}
             removeTweetFromFavorites={removeTweetFromFavorites}
-            image={`https://picsum.photos/id/${index + 10}/500/300`}
+            image={tweet.imageLink}
             likes={tweet.likes}
             comments={tweet.comments}
           />
