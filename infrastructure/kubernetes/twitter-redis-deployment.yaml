@@ -24,7 +24,7 @@ spec:
         app: twitter-redis
     spec:
       containers:
-        - image: bdsaisantosh/chatter:latest
+        - image: devopschatter/chatter:latest
           imagePullPolicy: Always
           name: twitter-redis
           env:
