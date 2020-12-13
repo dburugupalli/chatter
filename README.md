@@ -3,7 +3,7 @@
 #### Table of Contents
 
 <!-- vim-markdown-toc GFM -->
-```
+
 * [Features](#features)
 * [Infrastructure-Bringing up](#infrastrucure)
 * [Frontend](#frontend)
@@ -13,6 +13,5 @@
 * [Project Document](#documentation)
 * [Screenshots](#documentation/screenshots)
 * [References](#documentation/references)
-```
 
 <!-- vim-markdown-toc -->
