@@ -1,10 +1,10 @@
 # chatter
 
-### Table of Contents
+#### Table of Contents
 
 <!-- vim-markdown-toc GFM -->
-
-* [Features](#http://)<)
+```
+* [Features](#features)
 * [Infrastructure-Bringing up](#infrastrucure)
 * [Frontend](#frontend)
 * [Backend](#backend)
@@ -13,5 +13,6 @@
 * [Project Document](#documentation)
 * [Screenshots](#documentation/screenshots)
 * [References](#documentation/references)
+```
 
 <!-- vim-markdown-toc -->
