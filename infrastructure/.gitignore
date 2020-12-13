@@ -27,3 +27,12 @@ override.tf.json
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
+
+# ignore metrics server
+kubernetes/metrics-server-*
+
+# ignore tar files
+*.tar.gz
+
+# ignore kubeconfig
+aws-eks/kubeconfig_*

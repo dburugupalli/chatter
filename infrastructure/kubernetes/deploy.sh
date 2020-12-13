@@ -17,3 +17,5 @@ sleep 30
 bash ../prometheus/monitoring_up.sh
 sleep 5 
 kubectl get all -n monitoring
+sleep 5
+bash ingress.sh

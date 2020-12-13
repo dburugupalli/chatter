@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: bdsaisantosh/twitter-client:latest
+        image: devopschatter/twitter-client:latest
         ports:
         - containerPort: 80
         resources:
