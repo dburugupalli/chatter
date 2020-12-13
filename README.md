@@ -7,8 +7,20 @@ Run the Helm chart - **helm install example ./twitterhelmchart/ --set service.ty
 
 
 # Chatter
-Developed a Twitter application where user can tweet and see the recent tweet from all the users. Added the news API where the user can scroll through the recent trending news around the world. The tweet created by the user includes the avatar of a person, username, date and the content of the tweet—adding the ability for the other users to like and comment on particular tweets. User can also scroll through the list of users along with the comments on the particular tweet. If any of the tweets contain any of the abusive words, the tweet will be revoked and not visible to any of the users. All the tweets are store to the backend database, which will help the user find their past tweets.
+* Token based authentication for user Sign in and Sign up  
+* Web application where user can tweet and see the recent tweet from all other users. 
+* Integrated News API on the home page for latest updates 
+* Tweets include photo, username, tweet body, comments and likes on a particular post.  
+* User can comment and like the tweet and view tweets posted by others
+* Ability to delete offensive tweets before any user can see them 
+* Tweets are stored in a database, so they never get lost 
+* Ability to deploy front-end as a PWA so that it can run on devices 
+* All the tweets are store to the backend database, which will help the user find their past tweets. 
+* Redis-json as the middle layer.   
+* React and material UI for frontend development  
+* Session Based user management using cookies 
 
+ 
 # Installation Guide
 
 ## Frontend Technologies
