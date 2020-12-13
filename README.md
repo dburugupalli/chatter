@@ -19,5 +19,5 @@
 
 #### Application Architecture
 <!-- vim-markdown-toc GFM -->
-
+![alt text](https://github.com/dburugupalli/chatter/blob/feature/helmcharts/Application%20Architecture.png)
 <!-- vim-markdown-toc -->
