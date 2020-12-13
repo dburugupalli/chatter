@@ -12,6 +12,7 @@ export const authenticateUserInfo = async (userInfo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify(userInfo),
     });
@@ -28,6 +29,7 @@ export const registerUserInfo = async (userInfo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify(userInfo),
     });
@@ -52,6 +54,7 @@ export const getTweets = async (token) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${token}`,
       },
     });
@@ -68,6 +71,7 @@ export const postTweet = async (tweet, token) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(tweet),
@@ -85,6 +89,7 @@ export const updateTweetComments = async (tweetId, reqBody, token) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(reqBody),
@@ -103,6 +108,7 @@ export const updateTweetFavorites = async (tweetId, reqBody, token) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(reqBody),

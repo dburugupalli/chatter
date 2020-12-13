@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: twitter-redis
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '9090'
   labels:
     app: twitter-redis
 spec:
@@ -21,7 +24,7 @@ spec:
         app: twitter-redis
     spec:
       containers:
-        - image: bdsaisantosh/twitter-redis:latest
+        - image: bdsaisantosh/chatter:latest
           imagePullPolicy: Always
           name: twitter-redis
           env:

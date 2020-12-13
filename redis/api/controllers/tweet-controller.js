@@ -9,10 +9,15 @@ const tweetKey = "tweets";
 client.set("key", tweetKey, redis.print);
 client.get("key", redis.print);
 
+const prom_client = require('prom-client');
+const counter = new prom_client.Counter({
+  name: 'get_tweets_route',
+  help: 'To get all the tweets',
+});
+
 const fetch = require("node-fetch");
 const serverName = process.env.BACKEND_SERVER_NAME;
 const baseUrl = `http://${serverName}:5000/v1`;
-
 // Function used to clear cache after the cache reached 5 requests and calls the main backend to
 // update the records
 function clearCache() {
@@ -264,7 +269,8 @@ exports.updateTweetForLikes = (request, response) => {
 exports.getTweets = (request, response) => {
   try {
     // Get the Tweets from cache
-    client.lrange(tweetKey, 0, -1, function (err, reply) {
+    counter.inc(); // Increment by 1
+        client.lrange(tweetKey, 0, -1, function (err, reply) {
       if (!err) {
         const tweets = reply.map(JSON.parse);
         // call the server api to fetch the previous results

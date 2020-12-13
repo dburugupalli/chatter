@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: example
+  labels:
+    app: twitter-redis-lb
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: twitter-redis-lb
+  endpoints:
+    - port: web
+      interval: 30s
