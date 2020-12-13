@@ -29,20 +29,17 @@ $ terraform apply # when provided prompt click on yes
 $  aws eks --region $(terraform output region) update-kubeconfig --name $(terraform output cluster_name)
 ```
 
-### Bring up the application
+### Bring up the application and  NGINX Ingress Controller for production grade kubernetes
 ```
 $ cd infrastructure/kubernetes 
+# Install all-in-One load Balancer, Cache, API Gateway, and WAF for Kubernetes Requirements and application metrics
 # will bring-up MERN stack application on kubernetes, metrics server and application monitoring 
 # using prometheus
 $ bash deploy.sh
 ```
 
-### Bring up NGINX Ingress Controller for production grade kubernetes
+### To view all ingress resources.
 ```
-$ cd infrastructure/kubernetes
-# Install all-in-One load Balancer, Cache, API Gateway, and WAF for Kubernetes Requirements and application metrics
-$ bash ingress.sh
-# to view all the resources ingress-nginx 
 $ kubectl get svc -n ingress-nginx
 # this will contain the application endpoint to access the chatter application. 
 # Happy tweeting.
