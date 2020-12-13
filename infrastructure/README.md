@@ -9,6 +9,7 @@
 4. Install helm
 5. Install network utility tools 
 6. Install vi or nano, if any edits are required
+7. Install aws-iam-authenticator so that kubeconfig can be easily done
 ```
 
 
@@ -45,4 +46,17 @@ $ bash ingress.sh
 $ kubectl get svc -n ingress-nginx
 # this will contain the application endpoint to access the chatter application. 
 # Happy tweeting.
+```
+
+### To view Logging and Monitoring Dashboard
+```
+$ kubectl get pods --namespace monitoring 
+# to view all the pods in monitoring dashboard
+$ kubectl port-forward <grafana-pod-name> 3000 --namespace monitoring 
+# to view the grafana dashboard on localhost:3000 All the configuration has been built in and fully functional 
+```
+
+### To deprovision the infrastructure on AWS 
+```
+$ terraform destroy
 ```
