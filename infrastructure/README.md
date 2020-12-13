@@ -29,20 +29,17 @@ $ terraform apply # when provided prompt click on yes
 $  aws eks --region $(terraform output region) update-kubeconfig --name $(terraform output cluster_name)
 ```
 
-### Bring up the application
+### Bring up the application and  NGINX Ingress Controller for production grade kubernetes
 ```
 $ cd infrastructure/kubernetes 
+# Install all-in-One load Balancer, Cache, API Gateway, and WAF for Kubernetes Requirements and application metrics
 # will bring-up MERN stack application on kubernetes, metrics server and application monitoring 
 # using prometheus
 $ bash deploy.sh
 ```
 
-### Bring up NGINX Ingress Controller for production grade kubernetes
+### To view all ingress resources.
 ```
-$ cd infrastructure/kubernetes
-# Install all-in-One load Balancer, Cache, API Gateway, and WAF for Kubernetes Requirements and application metrics
-$ bash ingress.sh
-# to view all the resources ingress-nginx 
 $ kubectl get svc -n ingress-nginx
 # this will contain the application endpoint to access the chatter application. 
 # Happy tweeting.
@@ -51,9 +48,10 @@ $ kubectl get svc -n ingress-nginx
 ### To view Logging and Monitoring Dashboard
 ```
 $ kubectl get pods --namespace monitoring 
-# to view all the pods in monitoring dashboard
-$ kubectl port-forward <grafana-pod-name> 3000 --namespace monitoring 
+# to view all the pods in prometheus monitoring dashboard
+$ kubectl port-forward prometheus-prometheus-prometheus-oper-prometheus-0 9090 --namespace monitoring
 # to view the grafana dashboard on localhost:3000 All the configuration has been built in and fully functional 
+$ kubectl port-forward prometheus-grafana-85b4dbb556-kjpsv 3000 --namespace monitoring```
 ```
 
 ### To deprovision the infrastructure on AWS 
