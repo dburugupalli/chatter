@@ -21,7 +21,7 @@ spec:
         app: twitter-backend
     spec:
       containers:
-        - image: devopschatter/chatter-server:latest
+        - image: devopschatter/twitter-server:latest
           imagePullPolicy: Always
           name: twitter-backend
           env:
