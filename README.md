@@ -15,3 +15,9 @@
 * [References](#documentation/references)
 
 <!-- vim-markdown-toc -->
+
+
+#### Application Architecture
+<!-- vim-markdown-toc GFM -->
+
+<!-- vim-markdown-toc -->
