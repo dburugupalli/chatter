@@ -30,9 +30,17 @@
 * Redis-json as the middle layer.   
 * React and material UI for frontend development  
 * Session Based user management using cookies 
+* Terraform to provision infrastructure 
+* Kubernetes cluster on AWS 
+* Logging using ELK stack 
+* Monitoring using Prometheus 
+* Continuous Integration to Docker Hub (A new image is created and deployed to docker hub) 
+* Ingress Controller using NGINX 
+* Application scaling based on number of clients
 <!-- vim-markdown-toc -->
 
 #### Application Architecture
 <!-- vim-markdown-toc GFM -->
 ![alt text](https://github.com/dburugupalli/chatter/blob/feature/helmcharts/Application%20Architecture.png)
 <!-- vim-markdown-toc -->
+
