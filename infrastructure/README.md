@@ -50,8 +50,16 @@ $ kubectl get svc -n ingress-nginx
 $ kubectl get pods --namespace monitoring 
 # to view all the pods in prometheus monitoring dashboard
 $ kubectl port-forward prometheus-prometheus-prometheus-oper-prometheus-0 9090 --namespace monitoring
-# to view the grafana dashboard on localhost:3000 All the configuration has been built in and fully functional 
-$ kubectl port-forward prometheus-grafana-85b4dbb556-kjpsv 3000 --namespace monitoring```
+# to view the grafana dashboard on localhost:3000 All the configuration has been built in and fully functional
+# port forward the grafana pod as mentioned below
+$ kubectl port-forward prometheus-grafana-85b4dbb556-kjpsv 3000 --namespace monitoring
+```
+### To destroy the deployments and services
+```
+$ cd infrastructure/kubernetes
+# will bring-down MERN stack application on kubernetes, metrics server and application monitoring 
+# using prometheus
+$ bash destroy.sh
 ```
 
 ### To deprovision the infrastructure on AWS 
