@@ -8,8 +8,7 @@
 * [Single command Infrastrucuture provisioing](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
 * [Frontend](https://github.com/dburugupalli/chatter/tree/main/client)
 * [Backend](https://github.com/dburugupalli/chatter/tree/main/server)
-* [Redis-cache](https://github.com/dburugupalli/chatter/tree/main/redis)
-* [Redis-json](https://github.com/dburugupalli/chatter/tree/main/redis)
+* [Redis](https://github.com/dburugupalli/chatter/tree/main/redis)
 * [Project Document](https://github.com/dburugupalli/chatter/blob/main/documents/DevOpsDocumentGuide.pdf)
 
 <!-- vim-markdown-toc -->
