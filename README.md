@@ -11,8 +11,6 @@
 * [Redis-cache](#redis)
 * [Redis-json](#redis)
 * [Project Document](#documentation)
-* [Screenshots](#documentation/screenshots)
-* [References](#documentation/references)
 
 <!-- vim-markdown-toc -->
 
@@ -36,7 +34,8 @@
 * Monitoring using Prometheus 
 * Continuous Integration to Docker Hub (A new image is created and deployed to docker hub) 
 * Ingress Controller using NGINX 
-* Application scaling based on number of clients
+* Application scaling 
+* ![PWA LightHouse performance report](https://github.com/dburugupalli/chatter/blob/dev/documents/LightHouse_Chatter.pdf)
 <!-- vim-markdown-toc -->
 
 #### Application Architecture
