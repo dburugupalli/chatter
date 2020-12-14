@@ -4,13 +4,13 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Features](#features)
-* [Infrastructure-Bringing up](#infrastrucure)
-* [Frontend](#frontend)
-* [Backend](#backend)
-* [Redis-cache](#redis)
-* [Redis-json](#redis)
-* [Project Document](#documentation)
+* [Features](#about)
+* [Single command Infrastrucuture provisioing](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
+* [Frontend](https://github.com/dburugupalli/chatter/tree/main/client)
+* [Backend](https://github.com/dburugupalli/chatter/tree/main/server)
+* [Redis-cache](https://github.com/dburugupalli/chatter/tree/main/redis)
+* [Redis-json](https://github.com/dburugupalli/chatter/tree/main/redis)
+* [Project Document](https://github.com/dburugupalli/chatter/blob/main/documents/DevOpsDocumentGuide.pdf)
 
 <!-- vim-markdown-toc -->
 
@@ -35,6 +35,8 @@
 * Continuous Integration to Docker Hub (A new image is created and deployed to docker hub) 
 * Ingress Controller using NGINX 
 * Application scaling 
+* Deployed app on cloud with a single command (automation) 
+
 <!-- vim-markdown-toc -->
 
 #### Application Architecture
