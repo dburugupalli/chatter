@@ -4,7 +4,6 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Features](#about)
 * [Single command Infrastrucuture provisioing](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
 * [Frontend](https://github.com/dburugupalli/chatter/tree/main/client)
 * [Backend](https://github.com/dburugupalli/chatter/tree/main/server)
