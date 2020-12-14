@@ -35,7 +35,6 @@
 * Continuous Integration to Docker Hub (A new image is created and deployed to docker hub) 
 * Ingress Controller using NGINX 
 * Application scaling 
-* ![PWA LightHouse performance report](https://github.com/dburugupalli/chatter/blob/dev/documents/LightHouse_Chatter.pdf)
 <!-- vim-markdown-toc -->
 
 #### Application Architecture
