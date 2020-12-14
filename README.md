@@ -4,7 +4,7 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Single command Infrastrucuture provisioing](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
+* [Single command Infrastructure provisioning](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
 * [Frontend](https://github.com/dburugupalli/chatter/tree/main/client)
 * [Backend](https://github.com/dburugupalli/chatter/tree/main/server)
 * [Redis](https://github.com/dburugupalli/chatter/tree/main/redis)
