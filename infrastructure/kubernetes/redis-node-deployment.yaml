@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-redis-node
+  labels:
+    app: twitter-redis-node
+spec:
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: twitter-redis-node
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: twitter-redis-node
+    spec:
+      containers:
+        - image: redislabs/rejson:latest
+          imagePullPolicy: Always
+          name: twitter-redis-node
+          ports:
+          - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-node
+  labels:
+    app: twitter-redis-node
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    app: twitter-redis-node
