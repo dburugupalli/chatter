@@ -4,8 +4,8 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Features](#About Application)
-* [Click to Bring up the Application](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
+* [Features](#about)
+* [Single command Infrastrucuture provisioing](https://github.com/dburugupalli/chatter/tree/main/infrastructure)
 * [Frontend](https://github.com/dburugupalli/chatter/tree/main/client)
 * [Backend](https://github.com/dburugupalli/chatter/tree/main/server)
 * [Redis-cache](https://github.com/dburugupalli/chatter/tree/main/redis)
