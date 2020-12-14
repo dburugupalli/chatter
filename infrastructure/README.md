@@ -41,7 +41,7 @@ $ bash deploy.sh
 ### To view all ingress resources.
 ```
 $ kubectl get svc -n ingress-nginx
-# this will contain the application endpoint to access the chatter application. 
+# this will contain the application endpoint to access the chatter application. It takes few seconds for the application to come up. 
 # Happy tweeting.
 ```
 
