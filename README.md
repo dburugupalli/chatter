@@ -34,6 +34,7 @@
 * Ingress Controller using NGINX 
 * Application scaling 
 * Deployed app on cloud with a single command (automation) 
+* For installing the application from browser as an app, please use https://projectchatter.netlify.app/ .
 
 <!-- vim-markdown-toc -->
 
